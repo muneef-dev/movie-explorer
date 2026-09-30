@@ -31,6 +31,24 @@ import {
 import { formatDate, formatRuntime, formatVote } from '../utils/formatters';
 import { backdropUrl, posterUrl, profileUrl } from '../utils/tmdbImages';
 
+export const movieMetadataLayout = {
+  direction: { xs: 'column', sm: 'row' },
+  sx: {
+    my: 3,
+    color: 'rgba(255,248,236,.78)',
+    flexWrap: { xs: 'nowrap', sm: 'wrap' },
+    alignItems: { xs: 'flex-start', sm: 'center' },
+    columnGap: 2.5,
+    rowGap: { xs: 1, sm: 2.5 },
+  },
+};
+
+export const movieTitleSx = {
+  fontSize: { xs: 'clamp(2.35rem, 12vw, 3.2rem)', sm: '4.6rem', md: '6.2rem' },
+  lineHeight: 0.9,
+  overflowWrap: 'anywhere',
+};
+
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const dispatch = useDispatch();
@@ -106,15 +124,15 @@ const MovieDetailsPage = () => {
                 <Box sx={{ aspectRatio: '2 / 3', display: 'grid', placeItems: 'center' }}><TheatersRoundedIcon sx={{ fontSize: 72 }} /></Box>
               )}
             </Paper>
-            <Box sx={{ maxWidth: 850 }}>
+            <Box sx={{ maxWidth: 850, minWidth: 0 }}>
               <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 2 }}>
                 {movie.genres?.map((genre) => <Chip key={genre.id} label={genre.name} variant="outlined" sx={{ color: 'inherit', borderColor: 'rgba(255,255,255,.3)' }} />)}
               </Stack>
-              <Typography variant="h1" sx={{ fontSize: { xs: '3.2rem', sm: '4.6rem', md: '6.2rem' }, lineHeight: .9 }}>
+              <Typography variant="h1" sx={movieTitleSx}>
                 {movie.title}
               </Typography>
               {movie.tagline && <Typography variant="h6" sx={{ mt: 2, color: 'primary.main', fontStyle: 'italic' }}>{movie.tagline}</Typography>}
-              <Stack direction="row" flexWrap="wrap" gap={2.5} sx={{ my: 3, color: 'rgba(255,248,236,.78)', alignItems: 'center' }}>
+              <Stack {...movieMetadataLayout}>
                 <Stack direction="row" gap={0.5} sx={{ alignItems: 'center' }}><StarRoundedIcon color="primary" /> {formatVote(movie.vote_average)} / 10</Stack>
                 <span>{formatDate(movie.release_date)}</span>
                 <span>{formatRuntime(movie.runtime)}</span>

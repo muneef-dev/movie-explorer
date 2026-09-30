@@ -10,6 +10,24 @@ import {
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
+export const searchFormSx = {
+  p: { xs: 1.2, sm: 1.5 },
+  display: 'flex',
+  flexDirection: { xs: 'column', sm: 'row' },
+  gap: 1,
+  alignItems: 'flex-start',
+  border: 1,
+  borderColor: 'divider',
+  maxWidth: 820,
+};
+
+export const searchActionsSx = {
+  display: 'flex',
+  gap: 1,
+  width: { xs: '100%', sm: 'auto' },
+  justifyContent: 'flex-end',
+};
+
 const SearchBar = ({ initialQuery = '', recentSearches = [], onSearch, onClear, loading }) => {
   const [query, setQuery] = useState(initialQuery);
   const [error, setError] = useState('');
@@ -38,15 +56,7 @@ const SearchBar = ({ initialQuery = '', recentSearches = [], onSearch, onClear, 
       component="form"
       onSubmit={submit}
       elevation={8}
-      sx={{
-        p: { xs: 1.2, sm: 1.5 },
-        display: 'flex',
-        gap: 1,
-        alignItems: 'flex-start',
-        border: 1,
-        borderColor: 'divider',
-        maxWidth: 820,
-      }}
+      sx={searchFormSx}
     >
       <Autocomplete
         freeSolo
@@ -58,29 +68,33 @@ const SearchBar = ({ initialQuery = '', recentSearches = [], onSearch, onClear, 
           if (value) setError('');
         }}
         onChange={(_, value) => value && setQuery(value)}
-        renderInput={(params) => {
-          const { InputProps, inputProps, ...textFieldParams } = params;
-          return (
-            <TextField
-              {...textFieldParams}
-              placeholder="Search by title — try Dune, Parasite, or Arrival"
-              error={Boolean(error)}
-              helperText={error}
-              size="small"
-              slotProps={{
-                htmlInput: { ...inputProps, 'aria-label': 'Search movies' },
-                input: {
-                  ...InputProps,
-                  startAdornment: (
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="Search by title — try Dune, Parasite, or Arrival"
+            error={Boolean(error)}
+            helperText={error}
+            size="small"
+            slotProps={{
+              ...params.slotProps,
+              htmlInput: {
+                ...params.slotProps.htmlInput,
+                'aria-label': 'Search movies',
+              },
+              input: {
+                ...params.slotProps.input,
+                startAdornment: (
+                  <>
                     <InputAdornment position="start"><SearchRoundedIcon /></InputAdornment>
-                  ),
-                },
-              }}
-            />
-          );
-        }}
+                    {params.slotProps.input.startAdornment}
+                  </>
+                ),
+              },
+            }}
+          />
+        )}
       />
-      <Box sx={{ display: 'flex', gap: 1 }}>
+      <Box sx={searchActionsSx}>
         {initialQuery && (
           <Button aria-label="Clear search" color="inherit" onClick={clear} sx={{ minWidth: 44, px: 1 }}>
             <CloseRoundedIcon />
