@@ -23,7 +23,7 @@ export const normalizeError = (error) => {
   if (error?.code === 'TMDB_TOKEN_MISSING') {
     return {
       status: 401,
-      message: 'Add your TMDb read access token to .env to load movies.',
+      message: 'Add your TMDb API key or read access token to .env to load movies.',
     };
   }
 

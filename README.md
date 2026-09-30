@@ -42,16 +42,16 @@ Create React App is deprecated for new production applications, but it is used h
 
 2. Copy `.env.example` to `.env`.
 
-3. Add your TMDb API Read Access Token:
+3. Add either your TMDb v3 API key or API Read Access Token:
 
    ```env
-   REACT_APP_TMDB_API_TOKEN=your_tmdb_read_access_token
+   REACT_APP_TMDB_API_TOKEN=your_tmdb_api_key_or_read_access_token
    ```
 
 4. Start the development server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 5. Open `http://localhost:3000` and sign in with any non-empty username and password.
@@ -62,6 +62,7 @@ The login is intentionally a frontend demonstration. The password is validated f
 
 | Command | Purpose |
 |---|---|
+| `npm run dev` | Run the local development server |
 | `npm start` | Run the local development server |
 | `npm test -- --watchAll=false` | Run the full test suite once |
 | `npm run build` | Create an optimized production build |
@@ -87,9 +88,9 @@ Filtering is applied to the result pages already loaded from TMDb. Changing a fi
 
 ## API Error Handling
 
-The Axios client uses the TMDb v3 base URL, Bearer-token authentication, a ten-second timeout, and normalized messages for missing credentials, unauthorized requests, rate limits, timeouts, and unavailable services. A missing token produces an actionable message in the UI.
+The Axios client uses the TMDb v3 base URL, supports both v3 API-key and Bearer-token authentication, applies a ten-second timeout, and normalizes messages for missing credentials, unauthorized requests, rate limits, timeouts, and unavailable services. A missing credential produces an actionable message in the UI.
 
-Any credential delivered to a browser can be inspected by a user. Use a TMDb read token, never a privileged secret, and apply origin restrictions if they are available for your account.
+Any credential delivered to a browser can be inspected by a user. Use only a TMDb v3 API key or API Read Access Token, never a privileged secret, and apply origin restrictions if they are available for your account.
 
 ## Testing
 

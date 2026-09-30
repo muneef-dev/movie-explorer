@@ -21,6 +21,9 @@ import { clearFilters } from '../features/filters/filtersSlice';
 import { loadGenres, loadMovies } from '../features/movies/moviesSlice';
 import { clearLastSearch, setLastSearch } from '../features/preferences/preferencesSlice';
 
+export const getRetryPage = ({ items, page }) =>
+  items.length ? page + 1 : Math.max(page, 1);
+
 const HomePage = () => {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
@@ -64,7 +67,13 @@ const HomePage = () => {
   };
 
   const retry = () =>
-    dispatch(loadMovies({ mode: movies.mode, query: movies.query, page: Math.max(movies.page, 1) }));
+    dispatch(
+      loadMovies({
+        mode: movies.mode,
+        query: movies.query,
+        page: getRetryPage(movies),
+      }),
+    );
 
   return (
     <>
